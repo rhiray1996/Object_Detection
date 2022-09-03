@@ -1,5 +1,4 @@
 import os
-from xmlrpc.server import DocXMLRPCRequestHandler
 import numpy as np
 import cv2
 from glob import glob
