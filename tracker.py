@@ -57,7 +57,7 @@ def draw_bb_images_from_txt(image, image_name, path):
     f.close()
     return image
 
-def track_bb_images(image, image_name, tracker, path, tracking_id, w_name):
+def track_bb_images_deepsort(image, image_name, tracker, path, tracking_id, w_name):
     csv_path = os.path.join(ct.DATASETS, path, ct.CSV, "{}.{}".format(image_name, 'csv'))
     csv_data = pd.read_csv(csv_path)
     
@@ -96,6 +96,50 @@ def track_bb_images(image, image_name, tracker, path, tracking_id, w_name):
             cv2.rectangle(image, (l,t), (r,b), (0, 0, 255), 1)
                 
     return image
+
+def track_bb_images_csrt(image, image_name, path, w_name, current_tracker_list, previous_tracker_list):
+    csv_path = os.path.join(ct.DATASETS, path, ct.CSV, "{}.{}".format(image_name, 'csv'))
+    csv_data = pd.read_csv(csv_path)
+    
+    """Window Name"""
+    cv2.putText(image, w_name, (int(10), int(20)), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 1, cv2.LINE_AA)
+    
+    """ Get Predicted Detection"""
+    detections = []
+    
+    if index > 0:
+        """ Update Tracker with Predicted Detections""" # bbs expected to be a list of detections, each in tuples of ( [left,top,w,h], confidence, detection_class )
+        for track in previous_tracker_list:
+            (success, box) = track.update(image)
+            if success:
+                (x, y, w, h) = [int(v) for v in box]
+                cv2.putText(image,"{}: {}".format(1, get_class_name("")), (int(x), int(y)-5), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)
+                cv2.rectangle(image, (int(x), int(y)), (int(x + w), int(y + h)), (0, 0, 255), 1)
+    
+    for i in range(csv_data.shape[0]):
+        tracker = cv2.legacy.TrackerCSRT_create()
+        class_id = int(csv_data.loc[i,"class_id"])
+        xmin = float(csv_data.loc[i,"xmin"])
+        ymin = float(csv_data.loc[i,"ymin"])
+        xmax = float(csv_data.loc[i,"xmax"])
+        ymax = float(csv_data.loc[i,"ymax"])
+        confidence = float(csv_data.loc[i,"confidence"])
+        
+        cx = int((xmax + xmin)/2)
+        cy = int((ymax + ymin)/2)
+        w = int(abs(xmax - xmin))
+        h = int(abs(ymax - ymin))
+        
+        tracker.init(image, (xmin,ymin,w,h))
+        current_tracker_list.append(tracker)
+        
+        detections.append(( [xmin,ymin,w,h], confidence, str(class_id) ))
+        
+    previous_tracker_list.clear()
+    for track in current_tracker_list:
+        previous_tracker_list.append(track)
+         
+    return image
                 
             
 
@@ -112,17 +156,17 @@ def get_class_name(class_id):
     elif class_id == 4:
         return "truck"
     
-def get_class_color(class_id):
-    if class_id == 0:
-        return "bicyclist"
-    elif class_id == 1:
-        return "car"
-    elif class_id == 2:
-        return "light"
-    elif class_id == 3:
-        return "pedestrian"
-    elif class_id == 4:
-        return "truck"
+# def get_class_color(class_id):
+#     if class_id == 0:
+#         return "bicyclist"
+#     elif class_id == 1:
+#         return "car"
+#     elif class_id == 2:
+#         return "light"
+#     elif class_id == 3:
+#         return "pedestrian"
+#     elif class_id == 4:
+#         return "truck"
     
 if __name__ == "__main__":
     np.random.seed(ct.RANDOM_STATE)
@@ -133,13 +177,15 @@ if __name__ == "__main__":
     test_x, test_y = load_data(ct.VAL)
     print(f"Test: {len(test_x)} - {len(test_y)}")
     
+
+    """ Initialize Sort Detector"""
+    tracker = DeepSort(max_age=5)
+    tracking_id = 1
+    
+    current_tracker_list, previous_tracker_list = [], []
     
     """ Detect Objects and Write in Text"""
     index = 0
-
-    """ Initialize Deep Sort Detector"""
-    tracker = DeepSort(max_age=5)
-    tracking_id = 1
     for x, y in tqdm(zip(test_x, test_y), total=len(test_x)):
         
         image_name = x.split("/")[-1].split(".")[0]
@@ -151,13 +197,16 @@ if __name__ == "__main__":
         org = draw_bb_images_from_csv(curr_image.copy(), image_name, ct.VAL, "Original")
         pred = draw_bb_images_from_csv(curr_image.copy(), image_name, ct.PRED, "Predictions")
         
-        if index >= 0 and index % 5 == 0:
-            tracker_list = []
-        track = track_bb_images(curr_image.copy(), image_name, tracker, ct.PRED, tracking_id, "Tracking")
+        track_deep = track_bb_images_deepsort(curr_image.copy(), image_name, tracker, ct.PRED, tracking_id, "DeepSort Tracking")
+        
+        current_tracker_list = []
+        track_csrt = track_bb_images_csrt(curr_image.copy(), image_name, ct.PRED, "CSRT Tracking", current_tracker_list, previous_tracker_list)
         
         """Display Image """
-        vis = np.concatenate((org, pred, track), axis=1)
+        vis1 = np.concatenate((org, pred), axis=1)
+        vis2 = np.concatenate((track_deep, track_csrt), axis=1)
+        vis = np.concatenate((vis1, vis2), axis=0)
         cv2.imshow("Original-Prediction-Tracker", vis)
-        key = cv2.waitKey(50)
+        key = cv2.waitKey()
         prev_image = curr_image.copy()
         index += 1
