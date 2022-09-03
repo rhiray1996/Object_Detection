@@ -1,4 +1,3 @@
-import glob
 import os
 import numpy as np
 import cv2
@@ -159,6 +158,6 @@ if __name__ == "__main__":
         """Display Image """
         vis = np.concatenate((org, pred, track), axis=1)
         cv2.imshow("Original-Prediction-Tracker", vis)
-        key = cv2.waitKey(100)
+        key = cv2.waitKey(50)
         prev_image = curr_image.copy()
         index += 1

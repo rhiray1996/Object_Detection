@@ -3,9 +3,9 @@ yolov5*
 
 
 ##Datsset
-/dataset*
-/data*
-/model*
+# /dataset*
+# /data*
+# /model*
 
 ##Media Files
 *.jpg
