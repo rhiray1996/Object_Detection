@@ -15,7 +15,7 @@ def create_dir(path):
 
 """ Load Model Function"""
 def get_model():
-    model = tc.hub.load('/Users/rhira/Repo/Object_Detection/yolov5', 'custom', path='yolov5/runs/train/exp/weights/best.pt', source='local') 
+    model = tc.hub.load('/Users/rhira/Repo/Object_Detection/yolov5', 'custom', path='/Users/rhira/Repo/Object_Detection/models/29_w_aug_150.pt', source='local') 
     # model = tc.hub.load('ultralytics/yolov5', 'yolov5s')
     return model
 
@@ -41,6 +41,9 @@ def get_class_name(class_id):
 if __name__ == "__main__":
     np.random.seed(ct.RANDOM_STATE)
     tc.random.manual_seed(ct.RANDOM_STATE)
+    
+    create_dir(os.path.join(ct.DATASETS, ct.PRED, ct.LABELS))
+    create_dir(os.path.join(ct.DATASETS, ct.PRED, ct.CSV))
     
     """ Get Model """
     model = get_model()
