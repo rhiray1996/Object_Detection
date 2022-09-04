@@ -2,7 +2,8 @@
 
 Approaches we used
 
-* Object Detection : Yolov5 Pytorch
+* Object Detection First Approach : Yolov5s Pytorch 
+* Object Detection Second Approach : Yolov5m Pytorch 
 * Object Tracking First Approach : DeepSoft Tracker 
 * Object Tracking Second Approach : CSRT Tracker 
 
@@ -106,19 +107,27 @@ This notebook will help you tu train custom model on google colab and roboflow f
 
 ## Results
 
-### Yolov5 Pytorch Model
+### Yolov5s Pytorch Model
 
 - Epoch : 150
-
+- Batch : 16
 - Pretrained Model : yolov5s.py on coco dataset
-
 - Agumented : No
-
 - Training Image Size : 8900 Images
-
 - Validation Data Size : 2225 Images
 
 ![od_yolov5_training](https://user-images.githubusercontent.com/24375469/188304093-f4ad672d-1c71-49ee-b95b-b7536396cb2a.png)
 
 
+### Yolov5m Pytorch Model
 
+- Epoch : 150
+- Batch : 20
+- Pretrained Model : yolov5m.py on coco dataset
+- Agumented : Yes
+- Training Image Size : 16000 Images
+- Validation Data Size : 1500 Images
+
+### DeepSoft Object Tracker
+
+### CSRT Object Tracker
