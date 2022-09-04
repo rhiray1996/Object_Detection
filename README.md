@@ -1,7 +1,10 @@
 # Object Detection and Tracker
 
-This will show you Object Detection and Tracking
+Approaches we used
 
+* Object Detection : Yolov5 Pytorch
+* Object Tracking First Approach : DeepSoft Tracker 
+* Object Tracking Second Approach : CSRT Tracker 
 
 
 https://user-images.githubusercontent.com/24375469/188302594-3cee633a-a4ff-4ff0-ae7b-b576ad3281ac.mp4
@@ -15,6 +18,7 @@ https://user-images.githubusercontent.com/24375469/188302594-3cee633a-a4ff-4ff0-
  * Yolov5
  * DeepSoft Tracker
  * PyTorch
+ * OpenCV
 
 ### Installation
 
@@ -54,35 +58,57 @@ Folder should look like this
 
 This file will Create Agumented Dataset for Training and Validation from Kaggle data
 
-Following Funtions 
-
+1. Function will create directory 
 ```coffee
 def create_dir(path):
 ```
-Function will create directory 
- 
+2. Function will load file path of images and label and split 
 ```coffee
 def load_data(image_path, label_path, csv_path, split = 0.9, use_data=1):
 ```
-Function will load file path of images and label and split 
 
+3. Function will convert label data in yolov5 format labels
 ```coffee
 def convert_to_yolo_labels(csv_path, image_path):
 ```
-Function will convert label data in yolov5 format labels
 
+4. Function will agument data and store files in datasets folder
 ```coffee
 def augment_data(images, labels, csvs, save_path, augment=True):
 ```
-Function will agument data and store files in datasets folder
+
 
 ### eval.py
 
 This file will load model and detect bounding box for validation folder (datasets>val)
+
+### tracker.py
+This file will track bounding box and give unique id detected by detector 
+
+1. Function will Draw Bounding Boxes and return images from given csv
+```coffee
+def draw_bb_images_from_csv(image, image_name, path, w_name):
+```
+
+2. Function will track bounding box using deepsoft tracker
+```coffee
+def track_bb_images_deepsort(image, image_name, tracker, path, tracking_id, w_name):
+```
+
+3. Function will track bounding box using csrt tracker
+```coffee
+def track_bb_images_csrt(image, image_name, path, w_name, current_tracker_list, previous_tracker_list):
+```
 
 ### scripts>YOLOv5_Training.ipynb
 
 This notebook will help you tu train custom model on google colab and roboflow for dataset loading
 
 ## Results
+
+### Yolov5 Pytorch Model
+
+![od_yolov5_training](https://user-images.githubusercontent.com/24375469/188304093-f4ad672d-1c71-49ee-b95b-b7536396cb2a.png)
+
+
 
