@@ -7,11 +7,11 @@ datasets/train/*
 datasets/val/*
 datasets/pred_h/*
 datasets/pred/csv/*
+datasets/pred/labels/*
 /data/*
 /model/*
 
 ##Media Files
 *.jpg
-*.txt
 *.yaml
 *.pt
