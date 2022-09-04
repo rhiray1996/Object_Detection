@@ -3,14 +3,29 @@
 Approaches we used
 
 * Object Detection First Approach : Yolov5s Pytorch 
-* Object Detection Second Approach : Yolov5m Pytorch 
+* Object Detection Second Approach : Yolov7s Pytorch 
 * Object Tracking First Approach : DeepSoft Tracker 
 * Object Tracking Second Approach : CSRT Tracker 
 
 
 https://user-images.githubusercontent.com/24375469/188302594-3cee633a-a4ff-4ff0-ae7b-b576ad3281ac.mp4
 
-
+## Index
+- Steps to Run
+  - Requirements
+  - Installation
+- Code Information
+  - data.py
+  - eval.py
+  - tracker.py
+  - scripts>YOLOv5_Training.ipynb
+  - scripts>data_inference.ipynb
+  - scripts>model_inference.ipynb
+- Results
+  - Yolov5s Pytorch Model
+  - Yolov5m Pytorch Model
+  - DeepSoft Object Tracker
+  - CSRT Object Tracker
 
 ## Steps to Run
 
@@ -23,7 +38,7 @@ https://user-images.githubusercontent.com/24375469/188302594-3cee633a-a4ff-4ff0-
 
 ### Installation
 
- * Install
+* Install
 ```coffee
 !git clone https://github.com/ultralytics/yolov5  # clone repo
 %cd yolov5
@@ -108,6 +123,18 @@ def track_bb_images_csrt(image, image_name, path, w_name, current_tracker_list, 
 ### scripts>YOLOv5_Training.ipynb
 
 This notebook will help you tu train custom model on google colab and roboflow for dataset loading
+
+### scripts>data_inference.ipynb
+
+Inferense of data we are using
+
+![image](https://user-images.githubusercontent.com/24375469/188312850-969a2e1a-9952-4311-aad3-82eaeed0b50d.png)
+
+
+### scripts>dmodel_inference.ipynb
+
+Inferense of models we used and the perfomance
+
 
 ## Results
 
