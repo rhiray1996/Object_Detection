@@ -128,6 +128,9 @@ This notebook will help you tu train custom model on google colab and roboflow f
 
 Inferense of data we are using
 
+![image](https://user-images.githubusercontent.com/24375469/188312850-969a2e1a-9952-4311-aad3-82eaeed0b50d.png)
+
+
 ### scripts>dmodel_inference.ipynb
 
 Inferense of models we used and the perfomance
