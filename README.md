@@ -152,7 +152,7 @@ To check results see file > scripts/inference.ipynb
 ![od_yolov5_training](https://user-images.githubusercontent.com/24375469/188304093-f4ad672d-1c71-49ee-b95b-b7536396cb2a.png)
 
 
-### Yolov5m Pytorch Model
+### Yolov7 Pytorch Model
 
 - Epoch : 150
 - Batch : 20
