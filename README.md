@@ -108,6 +108,16 @@ This notebook will help you tu train custom model on google colab and roboflow f
 
 ### Yolov5 Pytorch Model
 
+- Epoch : 150
+
+- Pretrained Model : yolov5s.py on coco dataset
+
+- Agumented : No
+
+- Training Image Size : 8900 Images
+
+- Validation Data Size : 2225 Images
+
 ![od_yolov5_training](https://user-images.githubusercontent.com/24375469/188304093-f4ad672d-1c71-49ee-b95b-b7536396cb2a.png)
 
 
