@@ -32,13 +32,19 @@ https://user-images.githubusercontent.com/24375469/188302594-3cee633a-a4ff-4ff0-
 ### Requirements
  * Python
  * Yolov5
+ * Yolov7
  * DeepSoft Tracker
  * PyTorch
  * OpenCV
 
 ### Installation
 
-* Install
+* Clone this repository and install libraries using requirements.txt
+```coffee
+pip install -r requirements.txt
+```
+
+* Install Yolov5
 ```coffee
 !git clone https://github.com/ultralytics/yolov5  # clone repo
 %cd yolov5
@@ -128,7 +134,7 @@ This notebook will help you tu train custom model on google colab and roboflow f
 
 Inferense of data we are using
 
-![image](https://user-images.githubusercontent.com/24375469/188312850-969a2e1a-9952-4311-aad3-82eaeed0b50d.png)
+![image](https://user-images.githubusercontent.com/24375469/188314311-548776f1-27c2-4aac-a078-e251192ed836.png)
 
 
 ### scripts>dmodel_inference.ipynb
@@ -152,7 +158,7 @@ To check results see file > scripts/inference.ipynb
 ![od_yolov5_training](https://user-images.githubusercontent.com/24375469/188304093-f4ad672d-1c71-49ee-b95b-b7536396cb2a.png)
 
 
-### Yolov5m Pytorch Model
+### Yolov7 Pytorch Model
 
 - Epoch : 150
 - Batch : 20
