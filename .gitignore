@@ -3,13 +3,15 @@ yolov5*
 
 
 ##Datsset
-# /dataset*
-# /data*
-# /model*
+datasets/train/*
+datasets/val/*
+datasets/pred_h/*
+datasets/pred/csv/*
+/data/*
+/model/*
 
 ##Media Files
 *.jpg
-*.csv
 *.txt
 *.yaml
 *.pt
