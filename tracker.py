@@ -12,6 +12,19 @@ from deep_sort_realtime.deepsort_tracker import DeepSort
 
 csrt_max_id = 0
 
+""" Get Class Name """
+def get_class_name(class_id):
+    if class_id == 0:
+        return "bicyclist"
+    elif class_id == 1:
+        return "car"
+    elif class_id == 2:
+        return "light"
+    elif class_id == 3:
+        return "pedestrian"
+    elif class_id == 4:
+        return "truck"
+
 def draw_bb_images_from_csv(image, image_name, path, w_name):
     """ Original Bounding Box Present"""
     csv_path = os.path.join(ct.DATASETS, path, ct.CSV, "{}.{}".format(image_name, 'csv'))
@@ -80,24 +93,41 @@ def track_bb_images_deepsort(image, image_name, tracker, path, tracking_id, w_na
         cy = int((ymax + ymin)/2)
         w = int(abs(xmax - xmin))
         h = int(abs(ymax - ymin))
-        detections.append(( [xmin,ymin,w,h], confidence, str(class_id) ))
+        detections.append(([xmin,ymin,w,h], confidence, str(class_id) ))
 
     """ Update Tracker with Predicted Detections"""
-    tracks = tracker.update_tracks(detections, frame=image) # bbs expected to be a list of detections, each in tuples of ( [left,top,w,h], confidence, detection_class )
-    for track in tracks:
-        track_id = track.track_id
-        if not track.is_confirmed():
-            # cv2.putText(image,"{}: {}".format(track_id, get_class_name(int(track.det_class))), (int(l), int(t)-5), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)
-            # cv2.rectangle(image, (l,t), (r,b), (0, 0, 255), 1)
-            continue
-        if int(track_id) == tracking_id:
-            ltrb = track.to_ltrb()
+    data = {"u_id":[], "class_id":[], "xmin":[], "ymin":[], "xmax":[], "ymax":[], "iou":[], "confidence":[]}
+    tracks = tracker.update_tracks(detections, frame=image) 
+    for i in range(len(tracks)):
+        u_id = tracks[i].track_id
+        confidence = tracks[i].det_conf
+        if not tracks[i].is_confirmed():
+            pass
+        else:
+            ltrb = tracks[i].to_ltrb()
             l = int(ltrb[0])
-            t = int(ltrb[1])
+            b = int(ltrb[1])
             r = int(ltrb[2])
-            b = int(ltrb[3])
-            cv2.putText(image,"{}: {}".format(track_id, get_class_name(int(track.det_class))), (int(l), int(t)-5), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)
-            cv2.rectangle(image, (l,t), (r,b), (0, 0, 255), 1)           
+            t = int(ltrb[3])
+            if confidence == None:
+                iou = 0
+            else:
+                (x, y, w, h) = [v for v in tracks[i].original_ltwh]
+                iou = get_iou((l,b,r,t), (x,y,x+w,y+h))
+            if int(u_id) == tracking_id:
+                cv2.putText(image,"{}: {}".format(u_id, get_class_name(int(tracks[i].det_class))), (int(l), int(b)-5), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)
+                cv2.rectangle(image, (l,t), (r,b), (0, 0, 255), 1)     
+            data['u_id'].append(u_id)
+            data['xmin'].append(l)
+            data['ymin'].append(b)
+            data['xmax'].append(r)
+            data['ymax'].append(t)
+            data['class_id'].append(class_id)
+            data['iou'].append(iou)
+            data['confidence'].append(confidence)
+    
+    df = pd.DataFrame(data=data)
+    df.to_csv(os.path.join(ct.DATASETS, ct.PRED, ct.DS_T, "{}.{}".format(image_name, 'csv')), index=False)      
     return image
 
 def track_bb_images_csrt(image, image_name, path, w_name, current_tracker_list, previous_tracker_list):
@@ -116,7 +146,8 @@ def track_bb_images_csrt(image, image_name, path, w_name, current_tracker_list, 
                 (x, y, w, h) = [int(v) for v in box]
                 track_detections[u_id] = (x, y, w, h)             
     
-    """ Update Tracker with Predicted Detections""" # bbs expected to be a list of detections, each in tuples of ( [left,top,w,h], confidence, detection_class )
+    """ Update Tracker with Predicted Detections"""
+    data = {"u_id":[], "class_id":[], "xmin":[], "ymin":[], "xmax":[], "ymax":[], "iou":[], "confidence":[]}
     for i in range(csv_data.shape[0]):
         tracker = cv2.legacy.TrackerCSRT_create()
         class_id = int(csv_data.loc[i,"class_id"])
@@ -131,12 +162,30 @@ def track_bb_images_csrt(image, image_name, path, w_name, current_tracker_list, 
         w = int(abs(xmax - xmin))
         h = int(abs(ymax - ymin))
         
-        u_id = get_box_id_max_iou((xmin,ymin,xmin + w, ymin + h), track_detections, 0.4)
+        (u_id, iou, points) = get_box_id_max_iou((xmin,ymin,xmin + w, ymin + h), track_detections, 0.4)
+        
+        xmin = points[0]
+        ymin = points[1]
+        xmax = points[2]
+        ymax = points[3]
+        
         tracker.init(image, (xmin,ymin,w,h))
         current_tracker_list.append((tracker, u_id))
         if u_id == 1:
             cv2.putText(image,"{}: {}".format(u_id, get_class_name(class_id)), (int(xmin), int(ymin)-5), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)
             cv2.rectangle(image, (int(xmin), int(ymin)), (int(xmax), int(ymax)), (0, 0, 255), 1)
+        
+        data['u_id'].append(u_id)
+        data['xmin'].append(xmin)
+        data['ymin'].append(ymin)
+        data['xmax'].append(xmax)
+        data['ymax'].append(ymax)
+        data['class_id'].append(class_id)
+        data['iou'].append(iou)
+        data['confidence'].append(confidence)
+    
+    df = pd.DataFrame(data=data)
+    df.to_csv(os.path.join(ct.DATASETS, ct.PRED, ct.CSRT_T, "{}.{}".format(image_name, 'csv')), index=False)
         
     previous_tracker_list.clear()
     for track in current_tracker_list:
@@ -144,6 +193,7 @@ def track_bb_images_csrt(image, image_name, path, w_name, current_tracker_list, 
          
     return image
 
+"""Get IOU of two boxes"""
 def get_iou(box1, box2):
     x1, y1, x2, y2 = box1
     x3, y3, x4, y4 = box2
@@ -174,34 +224,26 @@ def get_iou(box1, box2):
     assert iou <= 1.0
     return iou
 
+"""Get Id of Max IOU"""
 def get_box_id_max_iou(box, track_detections, iou_threshold = 0.6):
     global csrt_max_id
     iou = 0
     r_id = 0
+    points = None
     for u_id in track_detections:
         (x, y, w, h) = track_detections[u_id]
         temp_iou = get_iou(box, (x, y, x + w, y + h))
         if temp_iou >= iou_threshold and temp_iou >= iou:
             iou = temp_iou
             r_id = u_id
+            points = (x, y, x + w, y + h)
     if iou == 0 and r_id == 0:
         csrt_max_id = csrt_max_id + 1
-        return csrt_max_id
+        return (csrt_max_id, 0, box)
     del track_detections[r_id]
-    return r_id
+    return (r_id, iou, points)
                             
-""" Get Class Name """
-def get_class_name(class_id):
-    if class_id == 0:
-        return "bicyclist"
-    elif class_id == 1:
-        return "car"
-    elif class_id == 2:
-        return "light"
-    elif class_id == 3:
-        return "pedestrian"
-    elif class_id == 4:
-        return "truck"
+
     
 # def get_class_color(class_id):
 #     if class_id == 0:
@@ -253,6 +295,6 @@ if __name__ == "__main__":
         vis2 = np.concatenate((track_deep, track_csrt), axis=1)
         vis = np.concatenate((vis1, vis2), axis=0)
         cv2.imshow("Original-Prediction-Tracker", vis)
-        key = cv2.waitKey()
+        key = cv2.waitKey(30)
         prev_image = curr_image.copy()
         index += 1
