@@ -53,6 +53,10 @@ Folder should look like this
 
 ![image](https://user-images.githubusercontent.com/24375469/188274022-23dc0bbc-e2ba-445c-b70b-83ba1d836afc.png)
 
+* To Train Model
+
+Use google colab [notebook](https://colab.research.google.com/github/roboflow-ai/yolov5-custom-training-tutorial/blob/main/yolov5-custom-training.ipynb)
+
 ## Code Information
 
 ### data.py
@@ -107,6 +111,8 @@ This notebook will help you tu train custom model on google colab and roboflow f
 
 ## Results
 
+To check results see file > scripts/inference.ipynb
+
 ### Yolov5s Pytorch Model
 
 - Epoch : 150
@@ -129,5 +135,10 @@ This notebook will help you tu train custom model on google colab and roboflow f
 - Validation Data Size : 1500 Images
 
 ### DeepSoft Object Tracker
+- For IOU-Threshold : 0.6 > Less then threshold IOU Object will be called as a new object
+- Tracked object`s average IOU over 25 frame is: 0.8859707993022399
+ 
 
 ### CSRT Object Tracker
+- For IOU-Threshold : 0.6 > Less then threshold IOU Object will be called as a new object
+- Tracked object`s average IOU over 25 frame is: 0.7052752882365156
