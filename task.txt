@@ -1,0 +1,8 @@
+
+
+
+
+Object Tracker Evaluation
+Miss Detection: Object present in ground truth but not got detected by the detection algorithm.
+False-positive: Object not present in the ground truth, but the detection algorithm detects it as objects (False detections).
+Mismatch error: Object in ground truth is falsely related to some other object due to false tracking.
