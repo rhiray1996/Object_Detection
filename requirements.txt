@@ -96,7 +96,7 @@ pure-eval @ file:///opt/conda/conda-bld/pure_eval_1646925070566/work
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
-Pygments==2.13.0
+Pygments==2.15.0
 pyngrok==5.1.0
 pyparsing==2.4.7
 pyrsistent==0.18.1
