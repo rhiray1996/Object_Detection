@@ -148,6 +148,6 @@ wandb==0.13.2
 wcwidth @ file:///Users/ktietz/demo/mc3/conda-bld/wcwidth_1629357192024/work
 webencodings==0.5.1
 websocket-client==1.4.0
-Werkzeug==2.2.2
+Werkzeug==3.0.1
 wget==3.2
 zipp==3.8.1
