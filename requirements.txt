@@ -29,7 +29,7 @@ docker-pycreds==0.4.0
 entrypoints @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_croot-jb01gaox/entrypoints_1650293758411/work
 executing==1.0.0
 fastjsonschema==2.16.1
-fonttools==4.37.1
+fonttools==4.43.0
 fsspec @ file:///home/conda/feedstock_root/build_artifacts/fsspec_1662037448631/work
 gitdb==4.0.9
 GitPython==3.1.37
