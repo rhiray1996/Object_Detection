@@ -32,7 +32,7 @@ fastjsonschema==2.16.1
 fonttools==4.43.0
 fsspec @ file:///home/conda/feedstock_root/build_artifacts/fsspec_1662037448631/work
 gitdb==4.0.9
-GitPython==3.1.37
+GitPython==3.1.41
 glob2==0.7
 google-auth==2.11.0
 google-auth-oauthlib==0.4.6
