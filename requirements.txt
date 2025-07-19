@@ -74,7 +74,7 @@ notebook==6.4.5
 notebook-shim==0.1.0
 numpy==1.23.2
 oauthlib==3.2.0
-opencv-contrib-python==4.6.0.66
+opencv-contrib-python==4.8.1.78
 opencv-python==4.6.0.66
 opencv-python-headless==4.6.0.66
 packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1637239678211/work
