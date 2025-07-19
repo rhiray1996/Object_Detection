@@ -5,7 +5,8 @@ Approaches we used
 * Object Detection First Approach : Yolov5s Pytorch 
 * Object Detection Second Approach : Yolov7s Pytorch 
 * Object Tracking First Approach : DeepSoft Tracker 
-* Object Tracking Second Approach : CSRT Tracker 
+* Object Tracking Second Approach : CSRT Tracker
+* Object Tracking Third Approach : ByteTrack
 
 
 https://user-images.githubusercontent.com/24375469/188302594-3cee633a-a4ff-4ff0-ae7b-b576ad3281ac.mp4
@@ -26,6 +27,7 @@ https://user-images.githubusercontent.com/24375469/188302594-3cee633a-a4ff-4ff0-
   - Yolov5m Pytorch Model
   - DeepSoft Object Tracker
   - CSRT Object Tracker
+  - ByteTrack Object Tracker
 
 ## Steps to Run
 
@@ -126,6 +128,11 @@ def track_bb_images_deepsort(image, image_name, tracker, path, tracking_id, w_na
 def track_bb_images_csrt(image, image_name, path, w_name, current_tracker_list, previous_tracker_list):
 ```
 
+4. Function will track bounding box using ByteTrack tracker
+```coffee
+def track_bb_images_bytetrack(image, image_name, tracker, path, w_name):
+```
+
 ### scripts>YOLOv5_Training.ipynb
 
 This notebook will help you tu train custom model on google colab and roboflow for dataset loading
@@ -175,3 +182,7 @@ To check results see file > scripts/inference.ipynb
 ### CSRT Object Tracker
 - For IOU-Threshold : 0.6 > Less then threshold IOU Object will be called as a new object
 - Tracked object`s average IOU over 25 frame is: 0.7052752882365156
+
+### ByteTrack Object Tracker
+- Two-stage association tracker based on the latest ByteTrack algorithm
+- Provides improved object identity preservation under occlusion
