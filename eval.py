@@ -53,13 +53,7 @@ if __name__ == "__main__":
     test_x, test_y = load_data(ct.VAL)
     print(f"Test: {len(test_x)} - {len(test_y)}")
     
-    # start = time.time()
-    # for x, y in tqdm(zip(test_x, test_y), total=len(test_x)):
-    #     y_pred = model([x])
-    # end = time.time()
-    
-    print("Prediction Time: {}".format(end - start))
-
+    start = time.time()
     for x, y in tqdm(zip(test_x, test_y), total=len(test_x)):
         """ Extract the Image Name """
         image_name = x.split("/")[-1].split(".")[0]
@@ -101,4 +95,5 @@ if __name__ == "__main__":
         """ Store Detections in CSV"""
         df = pd.DataFrame(data=data)
         df.to_csv(os.path.join(ct.DATASETS, ct.PRED, ct.CSV, "{}.{}".format(image_name, 'csv')), index=False)
-        
+    end = time.time()
+    print("Prediction Time: {}".format(end - start))
