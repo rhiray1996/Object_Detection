@@ -11,7 +11,7 @@ backcall @ file:///home/ktietz/src/ci/backcall_1611930011877/work
 beautifulsoup4==4.11.1
 bleach==5.0.1
 cachetools==5.2.0
-certifi==2023.7.22
+certifi==2024.7.4
 cffi==1.15.1
 chardet==4.0.0
 charset-normalizer==2.1.1
@@ -46,7 +46,7 @@ ipykernel @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_
 ipython @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_df384d36-235b-4a10-98f5-52bceb3ceae46obihg1k/croots/recipe/ipython_1657652224441/work
 ipython-genutils==0.2.0
 jedi @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/croot-f1t6hma6/jedi_1644315882177/work
-Jinja2==3.1.2
+Jinja2==3.1.6
 joblib @ file:///tmp/build/80754af9/joblib_1635411271373/work
 json5==0.9.10
 jsonschema==4.15.0
@@ -74,8 +74,8 @@ notebook==6.4.5
 notebook-shim==0.1.0
 numpy==1.23.2
 oauthlib==3.2.0
-opencv-contrib-python==4.6.0.66
 opencv-python==4.8.1.78
+opencv-contrib-python==4.8.1.78
 opencv-python-headless==4.6.0.66
 packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1637239678211/work
 pandas==1.4.4
