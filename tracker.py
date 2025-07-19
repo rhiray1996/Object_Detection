@@ -68,7 +68,7 @@ def draw_bb_images_from_txt(image, image_name, path):
             
             """ Create Original Bounding Box """
             cv2.putText(image,"{}: {}".format(str(""), get_class_name(class_id)), (int(xmin), int(ymin)-5), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1, cv2.LINE_AA)
-            cv2.rectangle(image,(int(xmin), int(ymin)), (int(xmax), int(ymax)), (255, 255, 0), 1, text_color_bg=(0, 0, 0))
+            cv2.rectangle(image, (int(xmin), int(ymin)), (int(xmax), int(ymax)), (255, 255, 0), 1)
     f.close()
     return image
 
