@@ -38,7 +38,7 @@ google-auth==2.11.0
 google-auth-oauthlib==0.4.6
 grpcio==1.53.2
 h11==0.16.0
-idna==2.10
+idna==3.7
 imagecodecs @ file:///Users/runner/miniforge3/conda-bld/imagecodecs_1660083812029/work
 imageio @ file:///home/conda/feedstock_root/build_artifacts/imageio_1661789389824/work
 importlib-metadata==4.12.0
