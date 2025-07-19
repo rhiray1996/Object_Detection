@@ -70,7 +70,7 @@ nbconvert==7.0.0
 nbformat==5.4.0
 nest-asyncio==1.4.3
 networkx @ file:///home/conda/feedstock_root/build_artifacts/networkx_1661192904448/work
-notebook==6.4.5
+notebook==6.4.12
 notebook-shim==0.1.0
 numpy==1.23.2
 oauthlib==3.2.2
