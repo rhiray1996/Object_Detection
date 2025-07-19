@@ -16,6 +16,7 @@ PRED = "pred"
 CSV = "csv"
 CSRT_T = "csrt_tracker"
 DS_T = "ds_tracker"
+BT_T = "byte_tracker"
 
 H = 608
 W = 608
