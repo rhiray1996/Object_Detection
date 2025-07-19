@@ -73,7 +73,7 @@ networkx @ file:///home/conda/feedstock_root/build_artifacts/networkx_1661192904
 notebook==6.4.5
 notebook-shim==0.1.0
 numpy==1.23.2
-oauthlib==3.2.0
+oauthlib==3.2.2
 opencv-contrib-python==4.8.1.78
 opencv-python==4.6.0.66
 opencv-python-headless==4.8.1.78
